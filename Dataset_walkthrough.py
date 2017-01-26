@@ -6,7 +6,7 @@ import seaborn
 
 shop_info = pd.read_csv('input/shop_info.txt')
 
-for i in range(1000,2000):
+for i in range(1500,2000):
     print i+1
     file = 'flow_per_shop/'+str(i+1)+'.csv'
     info = pd.read_csv(file)
@@ -17,10 +17,15 @@ for i in range(1000,2000):
     print location
     print title1
     print title2
+
     pyplot.figure(figsize=(10,8))
     pyplot.plot(ts)
-    pyplot.axvline(98,color='green')
-    pyplot.axvline(110,color='red')
-    pyplot.axvline(239,color='yellow')
-    pyplot.axvline(464,color='green')
+    pyplot.axvline(98,color='brown')
+    pyplot.axvline(170,color='red')
+    pyplot.axvline(227,color='yellow')
+    pyplot.axvline(311,color='green')
+    pyplot.axvline(448,color='green')
+    pyplot.axvline(464,color='brown')
+    pyplot.axvspan(129,142, facecolor='0.5', alpha=0.5)
+    pyplot.legend(['ts','10.1','1212','spring D','5.1','Moon','10.1','1111'])
     pyplot.show()
