@@ -6,7 +6,7 @@ import seaborn
 
 shop_info = pd.read_csv('input/shop_info.txt')
 
-for i in range(1500,2000):
+for i in range(1800,2000):
     print i+1
     file = 'flow_per_shop/'+str(i+1)+'.csv'
     info = pd.read_csv(file)
