@@ -28,35 +28,35 @@ def is_exchangeday(date):
     else:
         return False
 
-not_work_days= []
-file_name = 'flow_per_shop/1000.csv'
-shop_file = open(file_name,'rb')
-info = pd.read_csv(shop_file)
-info['target_dates'] = info['target_dates'].astype(str)
-dates = info['target_dates'].values
-flow = info['count'].values
-count = 0
-for i in dates:
-    print i
-    print count
-    count +=1
-    print ((not np.is_busday(np.datetime64(i)) and not is_exchangeday(i)) or is_holiday(i))
+for shop_id in range(1,2001):
+    print shop_id
+    not_work_days= []
+    file_name = 'flow_per_shop/'+str(shop_id)+'.csv'
+    shop_file = open(file_name,'rb')
+    info = pd.read_csv(shop_file)
+    info['target_dates'] = info['target_dates'].astype(str)
+    dates = info['target_dates'].values
+    flow = info['count'].values
+    count = 0
+    for i in dates:
+        # print i
+        # print count
+        count +=1
+        # print ((not np.is_busday(np.datetime64(i)) and not is_exchangeday(i)) or is_holiday(i))
+        # print ''
+        not_work_days.append(((not np.is_busday(np.datetime64(i)) and not is_exchangeday(i)) or is_holiday(i)))
+    not_work_days = np.array(not_work_days,dtype=int)
+
+
+    total_not_workday = not_work_days.sum()
+    # print total_not_workday
+    total_workday = not_work_days.shape[0] - total_not_workday
+    # print total_workday
+
+    # show how does it change the customer flow for hoilidays (not work days)
+    flow_not_work_days = flow * not_work_days
+    print flow_not_work_days.sum()/total_not_workday
+
+    flow_work_days = flow * (1-not_work_days)
+    print flow_work_days.sum()/total_workday
     print ''
-    not_work_days.append(((not np.is_busday(np.datetime64(i)) and not is_exchangeday(i)) or is_holiday(i)))
-not_work_days = np.array(not_work_days,dtype=int)
-pyplot.figure()
-pyplot.axis([0,500,0,2])
-pyplot.plot(not_work_days)
-pyplot.show()
-
-total_not_workday = not_work_days.sum()
-print total_not_workday
-total_workday = not_work_days.shape[0] - total_not_workday
-print total_workday
-
-# show how does it change the customer flow for hoilidays (not work days)
-flow_not_work_days = flow * not_work_days
-print flow_not_work_days.sum()/total_not_workday
-
-flow_work_days = flow * (1-not_work_days)
-print flow_work_days.sum()/total_workday
