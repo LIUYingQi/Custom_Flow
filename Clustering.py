@@ -28,6 +28,6 @@ np.savetxt('labels.csv',labels,fmt='%d')
 for i in range(20):
     indice = np.where(labels==i)[0]
     pyplot.figure()
-    for item in indice:
+    for item in indice[:10]:
         pyplot.plot(input[item,:])
     pyplot.show()
