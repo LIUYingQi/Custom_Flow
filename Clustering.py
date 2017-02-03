@@ -19,13 +19,13 @@ for i in range(1,2001):
 
 print input
 
-cluster = sklearn.cluster.KMeans(n_clusters=20)
+cluster = sklearn.cluster.KMeans(n_clusters=5)
 af = cluster.fit(input)
 print af.cluster_centers_
 labels =  af.labels_
 np.savetxt('labels.csv',labels,fmt='%d')
 
-for i in range(20):
+for i in range(5):
     indice = np.where(labels==i)[0]
     pyplot.figure()
     for item in indice[:10]:
