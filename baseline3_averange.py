@@ -6,8 +6,10 @@ import sklearn.preprocessing
 from matplotlib import pyplot
 
 # load train set and test set
-trainset_file = np.loadtxt('classification/cluster_0_trainset.csv',dtype=int)
-testset_file = np.loadtxt('classification/cluster_0_testset.csv',dtype=int)
+cluster = 2
+
+trainset_file = np.loadtxt('classification/cluster_'+str(cluster)+'_trainset.csv',dtype=int)
+testset_file = np.loadtxt('classification/cluster_'+str(cluster)+'_testset.csv',dtype=int)
 trainset_x = np.empty((0,140), dtype = int)
 trainset_y = np.empty((0,14), dtype = int)
 testset_x = np.empty((0,140), dtype = int)
@@ -42,6 +44,9 @@ for i in range(len(testset_x)):
     prediction = np.vstack((prediction,np.array([testset_x[i]]*14)))
 prediction = np.round(prediction)
 print prediction
+
+np.savetxt('result/baseline_3_clus_'+str(cluster)+'_label.csv',testset_y,fmt='%d')
+np.savetxt('result/baseline_3_clus_'+str(cluster)+'_predict.csv',prediction,fmt='%d')
 
 # scoring
 sum = 0.

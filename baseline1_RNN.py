@@ -7,8 +7,9 @@ import sklearn.preprocessing
 from matplotlib import pyplot
 
 # load train set and test set
-trainset_file = np.loadtxt('classification/cluster_0_trainset.csv',dtype=int)
-testset_file = np.loadtxt('classification/cluster_0_testset.csv',dtype=int)
+cluster = 2
+trainset_file = np.loadtxt('classification/cluster_'+str(cluster)+'_trainset.csv',dtype=int)
+testset_file = np.loadtxt('classification/cluster_'+str(cluster)+'_testset.csv',dtype=int)
 trainset_x = np.empty((0,140), dtype = int)
 trainset_y = np.empty((0,14), dtype = int)
 testset_x = np.empty((0,140), dtype = int)
@@ -137,15 +138,15 @@ with tf.Session() as sess:
         data = pd.read_csv('flow_per_shop/' + str(i) + '.csv')
         data = data['count'].values
         value = stander.fit_transform(result[counter])
-        result_reversefit = np.vstack((result_reversefit,stander.fit(data[-21:-14]).inverse_transform(value)))
+        result_reversefit = np.vstack((result_reversefit,np.round(stander.fit(data[-21:-14]).inverse_transform(value))))
         counter +=1
         testset_y = np.vstack((testset_y, data[len_data - 14:]))
 
     print testset_y
     print result_reversefit
 
-np.savetxt('result/baseline1_label.csv',testset_y,fmt='%d')
-np.savetxt('result/baseline1_predict.csv',result_reversefit,fmt='%.5e')
+np.savetxt('result/baseline_1_clus_'+str(cluster)+'_label.csv',testset_y,fmt='%d')
+np.savetxt('result/baseline_1_clus_'+str(cluster)+'_predict.csv',result_reversefit,fmt='%d')
 
 # scoring
 sum = 0.
@@ -156,11 +157,11 @@ nt = float((testset_y.shape[0]*testset_y.shape[1]))
 score = sum/nt
 print score
 
-# visualizing
-for i in range(100):
-    pyplot.figure()
-    pyplot.plot(testset_y[i])
-    pyplot.plot(result_reversefit[i])
-    pyplot.show()
-
+# # visualizing
+# for i in range(100):
+#     pyplot.figure()
+#     pyplot.plot(testset_y[i])
+#     pyplot.plot(result_reversefit[i])
+#     pyplot.show()
+#
 
