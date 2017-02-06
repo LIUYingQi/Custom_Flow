@@ -28,6 +28,8 @@ def is_exchangeday(date):
     else:
         return False
 
+relations = []
+
 for shop_id in range(1,2001):
     print shop_id
     not_work_days= []
@@ -59,4 +61,8 @@ for shop_id in range(1,2001):
 
     flow_work_days = flow * (1-not_work_days)
     print flow_work_days.sum()/total_workday
-    print ''
+    relation = float(float(flow_not_work_days.sum())/float(total_not_workday))/float(float(flow_work_days.sum())/float(total_workday))
+
+    relations.append(relation)
+
+np.savetxt('classification/pattern.csv',np.array(relations))

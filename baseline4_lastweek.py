@@ -1,4 +1,4 @@
-# baseline 3 using just last 2 week avrange
+# baseline 4 using just last week value
 
 import numpy as np
 import pandas as pd
@@ -33,15 +33,10 @@ for i in testset_file:
 print testset_y.shape
 print testset_x.shape
 
-testset_x = testset_x[:,-14:]
-testset_x = np.mean(testset_x,axis=1)
-print testset_x.shape
-prediction = np.empty((0,14))
-print [testset_x[0]]*14
-for i in range(len(testset_x)):
-    prediction = np.vstack((prediction,np.array([testset_x[i]]*14)))
-prediction = np.round(prediction)
-print prediction
+prediction = testset_x[:,-7:]
+# print prediction
+prediction = np.concatenate((prediction,prediction),axis=1)
+print prediction.shape
 
 # scoring
 sum = 0.
@@ -57,4 +52,5 @@ for i in range(100):
     pyplot.figure()
     pyplot.plot(testset_y[i])
     pyplot.plot(prediction[i])
+    pyplot.legend(['label','prediction'])
     pyplot.show()

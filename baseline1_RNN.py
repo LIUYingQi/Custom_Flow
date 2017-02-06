@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 import sklearn.preprocessing
+from matplotlib import pyplot
 
 # load train set and test set
 trainset_file = np.loadtxt('classification/cluster_0_trainset.csv',dtype=int)
@@ -103,7 +104,7 @@ B = init_weight([label_size])
 py_x , state_size = model(X,W1,B1,W2,B2,W,B,lstm_size)
 
 cost = tf.reduce_sum(tf.square( py_x*100 - Y*100 ))
-train_op = tf.train.AdamOptimizer(learning_rate=0.1,).minimize(cost)
+train_op = tf.train.AdamOptimizer(learning_rate=0.03,).minimize(cost)
 
 # run
 with tf.Session() as sess:
@@ -135,12 +136,16 @@ with tf.Session() as sess:
     for i in testset_file:
         data = pd.read_csv('flow_per_shop/' + str(i) + '.csv')
         data = data['count'].values
-        result_reversefit = np.vstack((result_reversefit,stander.fit(data).inverse_transform(result[counter])))
+        value = stander.fit_transform(result[counter])
+        result_reversefit = np.vstack((result_reversefit,stander.fit(data[-21:-14]).inverse_transform(value)))
         counter +=1
         testset_y = np.vstack((testset_y, data[len_data - 14:]))
 
     print testset_y
     print result_reversefit
+
+np.savetxt('result/baseline1_label.csv',testset_y,fmt='%d')
+np.savetxt('result/baseline1_predict.csv',result_reversefit,fmt='%.5e')
 
 # scoring
 sum = 0.
@@ -150,3 +155,12 @@ for i in range(testset_y.shape[0]):
 nt = float((testset_y.shape[0]*testset_y.shape[1]))
 score = sum/nt
 print score
+
+# visualizing
+for i in range(100):
+    pyplot.figure()
+    pyplot.plot(testset_y[i])
+    pyplot.plot(result_reversefit[i])
+    pyplot.show()
+
+
