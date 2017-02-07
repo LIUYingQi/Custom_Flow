@@ -5,8 +5,9 @@ import pandas as pd
 import sklearn.preprocessing
 from matplotlib import pyplot
 
-cluster = 0
+cluster = 2
 # load train set and test set
+cluster_file = np.loadtxt('classification/cluster_' + str(cluster) + '.csv', dtype=int)
 trainset_file = np.loadtxt('classification/cluster_'+str(cluster)+'_trainset.csv',dtype=int)
 testset_file = np.loadtxt('classification/cluster_'+str(cluster)+'_testset.csv',dtype=int)
 trainset_x = np.empty((0,140), dtype = int)
@@ -39,8 +40,8 @@ prediction = testset_x[:,-7:]
 prediction = np.concatenate((prediction,prediction),axis=1)
 print prediction.shape
 
-np.savetxt('result/baseline_4_clus_'+str(cluster)+'_label.csv',testset_y,fmt='%d')
-np.savetxt('result/baseline_4_clus_'+str(cluster)+'_predict.csv',prediction,fmt='%d')
+np.savetxt('test_set/baseline_4_clus_'+str(cluster)+'_label.csv',testset_y,fmt='%d')
+np.savetxt('test_set/baseline_4_clus_'+str(cluster)+'_predict.csv',prediction,fmt='%d')
 
 # scoring
 sum = 0.
@@ -51,10 +52,17 @@ nt = float((testset_y.shape[0]*testset_y.shape[1]))
 score = sum/nt
 print score
 
-# visualizing
-for i in range(100):
-    pyplot.figure()
-    pyplot.plot(testset_y[i])
-    pyplot.plot(prediction[i])
-    pyplot.legend(['label','prediction'])
-    pyplot.show()
+# predicting to submission
+submission = np.empty((0,7))
+
+for i in cluster_file:
+    data = pd.read_csv('flow_per_shop/' + str(i) + '.csv')
+    data = data['count'].values
+    data = data[-7:]
+    submission = np.vstack((submission,data))
+submission = np.round(submission)
+print submission.shape
+
+submission = np.concatenate((submission,submission),axis=1)
+print submission.shape
+np.savetxt('submission/baseline_4_clus_' + str(cluster) + '_predict.csv', submission, fmt='%d')

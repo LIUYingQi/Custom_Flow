@@ -32,11 +32,13 @@ cluster_num = np.max(labels)+1
 for i in range(cluster_num):
     print i
     indice = np.where(labels == i)[0]+1
+    cluster = indice
     cluster_trainset = np.intersect1d(indice,trainset)
     cluster_testset = np.intersect1d(indice,testset)
-    print indice
-    print cluster_trainset
-    print cluster_testset
+    print cluster.shape
+    print cluster_trainset.shape
+    print cluster_testset.shape
     print ''
+    np.savetxt('classification/cluster_'+str(i)+'.csv',cluster,fmt='%d')
     np.savetxt('classification/cluster_'+str(i)+'_trainset.csv',cluster_trainset,fmt='%d')
     np.savetxt('classification/cluster_'+str(i)+'_testset.csv',cluster_testset,fmt='%d')
