@@ -6,7 +6,7 @@ import sklearn.preprocessing
 from matplotlib import pyplot
 
 # load train set and test set
-cluster = 2
+cluster = 0
 
 cluster_file = np.loadtxt('classification/cluster_' + str(cluster) + '.csv', dtype=int)
 trainset_file = np.loadtxt('classification/cluster_'+str(cluster)+'_trainset.csv',dtype=int)
@@ -68,3 +68,15 @@ for i in cluster_file:
 submission = np.round(submission)
 print submission.shape
 np.savetxt('submission/baseline_3_clus_' + str(cluster) + '_predict.csv', submission, fmt='%d')
+
+# visualizing check
+counter = 0
+for i in cluster_file:
+    print counter
+    data = pd.read_csv('flow_per_shop/' + str(i) + '.csv')
+    data = data['count'].values
+    pyplot.figure()
+    pyplot.plot(np.arange(0,495),data)
+    pyplot.plot(np.arange(495,509),submission[counter])
+    pyplot.show()
+    counter+=1

@@ -4,8 +4,9 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 import sklearn.preprocessing
+from matplotlib import pyplot
 
-cluster = 2
+cluster = 1
 used_previous_period = 10
 period = 14
 
@@ -172,3 +173,15 @@ with tf.Session() as sess:
         result_reversefit = np.vstack((result_reversefit, np.round(stander.fit(data[-7:]).inverse_transform(value))))
         counter += 1
     np.savetxt('submission/baseline_1_clus_' + str(cluster) + '_predict.csv', result_reversefit, fmt='%d')
+
+# visualizing check
+counter = 0
+for i in cluster_file:
+    print counter
+    data = pd.read_csv('flow_per_shop/' + str(i) + '.csv')
+    data = data['count'].values
+    pyplot.figure()
+    pyplot.plot(np.arange(0,495),data)
+    pyplot.plot(np.arange(495,509),result_reversefit[counter])
+    pyplot.show()
+    counter+=1

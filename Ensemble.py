@@ -11,8 +11,8 @@ weights = {}
 # weighting
 for baseline in baselines:
     for cluster in range(num_clusters):
-        testset_y = np.loadtxt('result/baseline_'+str(baseline)+'_clus_' + str(cluster) + '_label.csv')
-        prediction = np.loadtxt('result/baseline_'+str(baseline)+'_clus_' + str(cluster) + '_predict.csv')
+        testset_y = np.loadtxt('test_set/baseline_'+str(baseline)+'_clus_' + str(cluster) + '_label.csv')
+        prediction = np.loadtxt('test_set/baseline_'+str(baseline)+'_clus_' + str(cluster) + '_predict.csv')
 
         # scoring
         sum = 0.
@@ -23,7 +23,11 @@ for baseline in baselines:
         nt = float((testset_y.shape[0] * testset_y.shape[1]))
         score = sum / nt
         print 'baseline: ' + str(baseline) + '  cluster: ' + str(cluster) + '  score: '+ str(score)
-        weight = 1/score
+        # weight = np.exp(1/score)
+        # weight = 1/score
+        # weight = np.power(1/score,1/score)
+        # weight = np.exp2(1/score)
+        weight = 1/score**6
 
         weights[str(baseline)+'_'+str(cluster)] = weight
 print weights
@@ -31,15 +35,15 @@ print weights
 # ensembling
 for cluster in range(num_clusters):
     total_weight =0
-    prediction_ensembled = np.zeros(np.loadtxt('result/baseline_1_clus_' + str(cluster) + '_label.csv').shape)
+    prediction_ensembled = np.zeros(np.loadtxt('test_set/baseline_1_clus_' + str(cluster) + '_label.csv').shape)
     for baseline in baselines:
         total_weight += weights[str(baseline)+'_'+str(cluster)]
     for baseline in baselines:
         weight = weights[str(baseline)+'_'+str(cluster)]/total_weight
-        prediction_ensembled += np.loadtxt('result/baseline_'+str(baseline)+'_clus_' + str(cluster) + '_predict.csv') * weight
+        prediction_ensembled += np.loadtxt('test_set/baseline_'+str(baseline)+'_clus_' + str(cluster) + '_predict.csv') * weight
     prediction_ensembled = np.round(prediction_ensembled)
     # scoring
-    testset_y = np.loadtxt('result/baseline_1_clus_' + str(cluster) + '_label.csv')
+    testset_y = np.loadtxt('test_set/baseline_1_clus_' + str(cluster) + '_label.csv')
     # scoring
     sum = 0.
     for i in range(testset_y.shape[0]):

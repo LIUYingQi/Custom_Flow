@@ -23,7 +23,7 @@ for baseline in baselines:
         nt = float((testset_y.shape[0] * testset_y.shape[1]))
         score = sum / nt
         print 'baseline: ' + str(baseline) + '  cluster: ' + str(cluster) + '  score: '+ str(score)
-        weight = 1/score
+        weight = 1/score**6
 
         weights[str(baseline)+'_'+str(cluster)] = weight
 print weights

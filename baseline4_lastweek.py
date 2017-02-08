@@ -66,3 +66,15 @@ print submission.shape
 submission = np.concatenate((submission,submission),axis=1)
 print submission.shape
 np.savetxt('submission/baseline_4_clus_' + str(cluster) + '_predict.csv', submission, fmt='%d')
+
+# visualizing check
+counter = 0
+for i in cluster_file:
+    print counter
+    data = pd.read_csv('flow_per_shop/' + str(i) + '.csv')
+    data = data['count'].values
+    pyplot.figure()
+    pyplot.plot(np.arange(0,495),data)
+    pyplot.plot(np.arange(495,509),submission[counter])
+    pyplot.show()
+    counter+=1
