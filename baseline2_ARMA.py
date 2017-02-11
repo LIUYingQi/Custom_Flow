@@ -10,6 +10,12 @@ from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 import statsmodels.api as sm
 import sklearn.preprocessing
 
+cluster = 0
+# load train set and test set
+cluster_file = np.loadtxt('classification/cluster_' + str(cluster) + '.csv', dtype=int)
+trainset_file = np.loadtxt('classification/cluster_'+str(cluster)+'_trainset.csv',dtype=int)
+testset_file = np.loadtxt('classification/cluster_'+str(cluster)+'_testset.csv',dtype=int)
+
 def draw_trend(timeSeries, size):
     rol_mean = pd.rolling_mean(timeSeries,size)
     rol_weighted_mean = pd.ewma(timeSeries, span=size)
@@ -31,11 +37,11 @@ def draw_acf_pacf(ts, lags=31):
 
 # array to save
 predict_result = np.empty((0,14))
-
+test_set_predict_result = np.empty((0,14))
 # predicting
-for i in range(2000):
+for i in cluster_file:
     print '##########################################################'
-
+    print i
     # loading time series data
     file = 'flow_per_shop/' + str(i + 1) + '.csv'
     info = pd.read_csv(file)
@@ -68,7 +74,7 @@ for i in range(2000):
 
     # # selecting parameter
     order = sm.tsa.arma_order_select_ic(ts_diff_1, max_ar=6, max_ma=3, ic=['aic'])
-    print order
+    # print order
 
     try:
 
@@ -107,4 +113,9 @@ for i in range(2000):
 
         continue
 
+    if i in testset_file:
+        print 'in test set'
+        test_set_predict_result = np.vstack((test_set_predict_result, predict))
 
+np.savetxt('test_set/baseline_4_clus_'+str(cluster)+'_predict.csv',test_set_predict_result,fmt='%d')
+np.savetxt('submission/baseline_4_clus_' + str(cluster) + '_predict.csv', predict_result, fmt='%d')
