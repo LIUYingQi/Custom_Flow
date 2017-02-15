@@ -6,7 +6,7 @@ import tensorflow as tf
 import sklearn.preprocessing
 from matplotlib import pyplot
 
-cluster = 1
+cluster = 2
 used_previous_period = 10
 period = 14
 

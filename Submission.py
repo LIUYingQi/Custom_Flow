@@ -4,7 +4,7 @@ import numpy as np
 
 # load results
 
-baselines = [1,3,4,5,6]
+baselines = [1,3,4,5]
 num_clusters = 3
 weights = {}
 
@@ -44,7 +44,7 @@ for cluster in range(num_clusters):
     print prediction_ensembled
     np.savetxt('submission/clus_' + str(cluster) + '_predict.csv',prediction_ensembled,fmt='%d')
     result_per_cluster.append(prediction_ensembled.tolist())
-print result_per_cluster
+print np.array(result_per_cluster).shape
 
 # generating submission file
 labels = np.loadtxt('labels.csv',dtype=int)

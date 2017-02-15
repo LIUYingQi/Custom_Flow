@@ -4,7 +4,7 @@ import numpy as np
 
 # load results
 
-baselines = [1,3,4,5,6]
+baselines = [1,3,4,5]
 num_clusters = 3
 weights = {}
 total_num = 0
@@ -40,7 +40,7 @@ for cluster in range(num_clusters):
         # weight = np.exp2(1/score)
         # weight = 1/score**6
         # weight = -np.log(score)
-        weight = (-np.log(score-0.07)) ** 4
+        weight = (-np.log(score-0.06)) ** 4
 
         weights[str(baseline)+'_'+str(cluster)] = weight
 print weights
