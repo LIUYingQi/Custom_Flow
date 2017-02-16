@@ -5,8 +5,8 @@ import pandas as pd
 from matplotlib import pyplot
 import seaborn
 
-cluster = 4
-baseline = 3
+cluster = 0
+baseline = 5
 testset = np.loadtxt('classification/cluster_'+str(cluster)+'_testset.csv',dtype=int)
 print testset
 

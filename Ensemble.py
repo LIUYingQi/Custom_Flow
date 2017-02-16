@@ -1,7 +1,9 @@
 # this file is to ensemble
 
 import numpy as np
-
+import pandas as pd
+from matplotlib import pyplot
+import seaborn
 # load results
 
 baselines = [1,3,4,5]
@@ -58,6 +60,7 @@ for cluster in range(num_clusters):
         prediction[prediction<0]=0
         prediction_ensembled += prediction * weight
     prediction_ensembled = np.round(prediction_ensembled)
+    np.savetxt('test_set/clus_'+str(cluster)+'_result.csv',prediction_ensembled,fmt='%d')
     # scoring
     testset_y = np.loadtxt('test_set/baseline_1_clus_' + str(cluster) + '_label.csv')
     # scoring
@@ -71,3 +74,27 @@ for cluster in range(num_clusters):
     final_score += cluster_weight[cluster]* score
 
 print 'final :' + str(final_score)
+
+# visualizing
+
+prediction_ensembled = np.loadtxt('test_set/clus_'+str(2)+'_result.csv',dtype=int)
+counter = 0
+test_set = np.loadtxt('classification/cluster_'+str(2)+'_testset.csv',dtype=int)
+for item in test_set:
+    file = 'flow_per_shop/' + str(item) + '.csv'
+    info = pd.read_csv(file)
+    ts = info['count'].values
+    prediction = prediction_ensembled[counter]
+    pyplot.figure(figsize=(18, 8))
+    pyplot.plot(np.arange(0,495),ts)
+    pyplot.plot(np.arange(481,495),prediction)
+    pyplot.axvline(98, color='brown')
+    pyplot.axvline(170, color='red')
+    pyplot.axvline(227, color='yellow')
+    pyplot.axvline(311, color='green')
+    pyplot.axvline(448, color='green')
+    pyplot.axvline(464, color='brown')
+    pyplot.axvspan(129, 142, facecolor='0.5', alpha=0.5)
+    pyplot.legend(['ts', '10.1', '1212', 'spring D', '5.1', 'Moon', '10.1', '1111'])
+    pyplot.show()
+    counter+=1
