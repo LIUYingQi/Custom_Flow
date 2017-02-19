@@ -6,7 +6,7 @@ from matplotlib import pyplot
 import seaborn
 
 cluster = 0
-baseline = 5
+baseline = 7
 testset = np.loadtxt('classification/cluster_'+str(cluster)+'_testset.csv',dtype=int)
 print testset
 

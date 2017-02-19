@@ -11,9 +11,9 @@ labels = []
 pattern = np.loadtxt('classification/pattern.csv')
 
 for i in pattern:
-    if i < 0.8:
+    if i < 0.9:
         labels.append(0)
-    elif i > 1.2:
+    elif i > 1.1:
         labels.append(2)
     else:
         labels.append(1)

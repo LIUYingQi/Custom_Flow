@@ -184,7 +184,7 @@ with tf.Session() as sess:
         data = pd.read_csv('flow_per_shop/' + str(i) + '.csv')
         data = data['count'].values
         value = stander.fit_transform(result[counter])
-        result_reversefit = np.vstack((result_reversefit, np.round(stander.fit(data[-7:]).inverse_transform(value))))
+        result_reversefit = np.vstack((result_reversefit, np.round(stander.fit(data[-21:]).inverse_transform(value))))
         counter += 1
     np.savetxt('submission/baseline_5_clus_' + str(cluster) + '_predict.csv', result_reversefit, fmt='%d')
 

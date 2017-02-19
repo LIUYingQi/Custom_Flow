@@ -25,8 +25,8 @@ for i in trainset_file:
     data = data['count'].values
     data = stander.fit_transform(data)
     len_data = len(data)
-    trainset_y = np.vstack((trainset_y,data[len_data - period:]))
-    trainset_x = np.vstack((trainset_x,data[len_data-used_previous_period*period - period:len_data - period]))
+    trainset_y = np.vstack((trainset_y,data[-period:]))
+    trainset_x = np.vstack((trainset_x,data[-used_previous_period*period - period:- period]))
 
 print trainset_y
 print trainset_x
@@ -37,8 +37,8 @@ for i in testset_file:
     data = data['count'].values
     data = stander.fit_transform(data)
     len_data = len(data)
-    testset_y = np.vstack((testset_y,data[len_data - period:]))
-    testset_x = np.vstack((testset_x,data[len_data-used_previous_period * period - period : len_data - period]))
+    testset_y = np.vstack((testset_y,data[- period:]))
+    testset_x = np.vstack((testset_x,data[-used_previous_period * period - period : - period]))
 
 testset_x = testset_x.reshape([-1,used_previous_period,period])
 print testset_y
@@ -170,7 +170,7 @@ with tf.Session() as sess:
         data = pd.read_csv('flow_per_shop/' + str(i) + '.csv')
         data = data['count'].values
         value = stander.fit_transform(result[counter])
-        result_reversefit = np.vstack((result_reversefit, np.round(stander.fit(data[-7:]).inverse_transform(value))))
+        result_reversefit = np.vstack((result_reversefit, np.round(stander.fit(data[-21:]).inverse_transform(value))))
         counter += 1
     np.savetxt('submission/baseline_1_clus_' + str(cluster) + '_predict.csv', result_reversefit, fmt='%d')
 

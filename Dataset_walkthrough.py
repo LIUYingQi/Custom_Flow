@@ -4,6 +4,7 @@ import pandas as pd
 from matplotlib import pyplot
 import seaborn
 import numpy as np
+from pypinyin import lazy_pinyin
 
 shop_info = pd.read_csv('input/shop_info.txt')
 
@@ -23,12 +24,15 @@ for i in range(100,2000):
     title1 = shop_info.iloc[i,7]
     title2 = shop_info.iloc[i,8]
     title3 = shop_info.iloc[i,9]
-
-    print location
+    city_name = []
+    for item in lazy_pinyin(unicode(location,encoding='utf-8')):
+        city_name.extend(item.encode())
+    city_name = ''.join(city_name)
     print title1
     print title2
     print title3
-
+    city_weather = pd.read_csv('input/city_weather/'+city_name)
+    # print city_weather.iloc[-55:-30,:]
     pyplot.figure(figsize=(18,8))
     pyplot.subplot(1,2,1)
     pyplot.plot(ts)
