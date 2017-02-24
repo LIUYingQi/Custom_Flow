@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot
 import seaborn
+import statsmodels.api as sm
 
 # split train set and test set
 trainset = np.arange(1,2001)
@@ -47,7 +48,7 @@ for i in range(cluster_num):
     np.savetxt('classification/cluster_'+str(i)+'_testset.csv',cluster_testset,fmt='%d')
 
 # change here to see result
-info = np.loadtxt('classification/cluster_1.csv',dtype=int)
+info = np.loadtxt('classification/cluster_2.csv',dtype=int)
 for i in info:
     print i
 
@@ -70,5 +71,8 @@ for i in info:
     pyplot.plot(ts)
     pyplot.plot(ts_fluent)
     pyplot.plot(ts_rare)
+    # res = sm.tsa.seasonal_decompose(ts_fluent,freq=7)
+    # fig = res.plot()
+    # fig.show()
 
     pyplot.show()
