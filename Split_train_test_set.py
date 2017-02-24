@@ -2,6 +2,9 @@
 # do labeling for cluster first before this
 
 import numpy as np
+import pandas as pd
+from matplotlib import pyplot
+import seaborn
 
 # split train set and test set
 trainset = np.arange(1,2001)
@@ -42,3 +45,30 @@ for i in range(cluster_num):
     np.savetxt('classification/cluster_'+str(i)+'.csv',cluster,fmt='%d')
     np.savetxt('classification/cluster_'+str(i)+'_trainset.csv',cluster_trainset,fmt='%d')
     np.savetxt('classification/cluster_'+str(i)+'_testset.csv',cluster_testset,fmt='%d')
+
+# change here to see result
+info = np.loadtxt('classification/cluster_1.csv',dtype=int)
+for i in info:
+    print i
+
+    file = 'flow_per_shop/' + str(i) + '.csv'
+    info = pd.read_csv(file)
+    ts = info['count'].values
+    ts = ts[242:]
+
+    file = 'flow_per_shop/' + str(i) + '_fluent.csv'
+    info_fluent = pd.read_csv(file)
+    ts_fluent = info_fluent['count'].values
+    ts_fluent = ts_fluent[242:]
+
+    file = 'flow_per_shop/' + str(i) + '_rare.csv'
+    info_rare = pd.read_csv(file)
+    ts_rare = info_rare['count'].values
+    ts_rare = ts_rare[242:]
+
+    pyplot.figure(figsize=(10, 8))
+    pyplot.plot(ts)
+    pyplot.plot(ts_fluent)
+    pyplot.plot(ts_rare)
+
+    pyplot.show()

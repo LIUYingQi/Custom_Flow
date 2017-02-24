@@ -4,7 +4,8 @@ import numpy as np
 
 # load results
 
-baselines = [3]
+### attention for baseline or baseline_1
+baselines = [3,7]
 num_clusters = 3
 weights = {}
 
