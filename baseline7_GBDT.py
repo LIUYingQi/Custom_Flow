@@ -7,7 +7,7 @@ from sklearn import metrics
 from matplotlib import pyplot
 import seaborn
 
-num_cluster = 3
+num_cluster = 4
 
 # load train test set
 trainset = np.loadtxt('trainset.csv',dtype=int) -1
@@ -35,7 +35,7 @@ testset_shop_info = shop_info.iloc[testset,:]
 ######################################################################################
 # save train set
 ######################################################################################
-
+#
 # stander = preprocessing.StandardScaler()
 # trainset_x = np.empty((0,14))
 # trainset_y = np.empty((0,21))
@@ -73,11 +73,11 @@ testset_shop_info = shop_info.iloc[testset,:]
 # trainset_x = pd.DataFrame(trainset_x)
 # trainset_x.to_csv('input/baseline7_trainset_x.csv')
 # np.savetxt('input/baseline7_trainset_y.csv',trainset_y,fmt='%f')
-
-###########################################################################################
-# save test set
-############################################################################################
-
+#
+# ###########################################################################################
+# # save test set
+# ############################################################################################
+#
 # stander = preprocessing.StandardScaler()
 # testset_x = np.empty((0,14))
 # testset_y = np.empty((0,21))
@@ -115,11 +115,11 @@ testset_shop_info = shop_info.iloc[testset,:]
 # testset_x = pd.DataFrame(testset_x)
 # testset_x.to_csv('input/baseline7_testset_x.csv')
 # np.savetxt('input/baseline7_testset_y.csv',testset_y,fmt='%f')
-
-############################################################################
-# generating submission file
-############################################################################
-
+#
+# ############################################################################
+# # generating submission file
+# ############################################################################
+#
 # for cluster in range(num_cluster):
 #     cluster_file = np.loadtxt('classification/cluster_'+str(cluster)+'.csv',dtype=int)
 #
@@ -157,9 +157,25 @@ print totalset
 
 trainset_x = pd.read_csv('input/baseline7_trainset_x.csv')
 testset_x = pd.read_csv('input/baseline7_testset_x.csv')
+
+for item in range(4):
+    with open('submission/baseline7_submission_x_'+str(item)+'.csv', 'r') as file :
+        filedata = file.read()
+    # Replace the target string
+    filedata = filedata.replace('xiaodaozhongxue', 'xiaoyu')
+    filedata = filedata.replace('xiaoxue', 'xiaoyu')
+    filedata = filedata.replace('zhongdaodaxue', 'xiaoyu')
+
+    # Write the file out again
+    with open('submission/baseline7_submission_x_'+str(item)+'.csv', 'w') as file:
+        file.write(filedata)
+
+
 submission_x_0 = pd.read_csv('submission/baseline7_submission_x_'+str(0)+'.csv')
 submission_x_1 = pd.read_csv('submission/baseline7_submission_x_'+str(1)+'.csv')
 submission_x_2 = pd.read_csv('submission/baseline7_submission_x_'+str(2)+'.csv')
+submission_x_3 = pd.read_csv('submission/baseline7_submission_x_'+str(3)+'.csv')
+
 totalset = pd.concat([trainset_x,testset_x])
 print totalset.shape
 print totalset
@@ -173,6 +189,8 @@ testset_x.iloc[:,2] = le.transform(testset_x.iloc[:,2])
 submission_x_0.iloc[:,2] = le.transform(submission_x_0.iloc[:,2])
 submission_x_1.iloc[:,2] = le.transform(submission_x_1.iloc[:,2])
 submission_x_2.iloc[:,2] = le.transform(submission_x_2.iloc[:,2])
+submission_x_3.iloc[:,2] = le.transform(submission_x_3.iloc[:,2])
+
 
 totalset.iloc[:,8] = le.fit_transform(totalset.iloc[:,8])
 trainset_x.iloc[:,8] = le.transform(trainset_x.iloc[:,8])
@@ -180,6 +198,8 @@ testset_x.iloc[:,8] = le.transform(testset_x.iloc[:,8])
 submission_x_0.iloc[:,8] = le.transform(submission_x_0.iloc[:,8])
 submission_x_1.iloc[:,8] = le.transform(submission_x_1.iloc[:,8])
 submission_x_2.iloc[:,8] = le.transform(submission_x_2.iloc[:,8])
+submission_x_3.iloc[:,8] = le.transform(submission_x_3.iloc[:,8])
+
 
 totalset.iloc[:,9] = le.fit_transform(totalset.iloc[:,9])
 trainset_x.iloc[:,9] = le.transform(trainset_x.iloc[:,9])
@@ -187,6 +207,8 @@ testset_x.iloc[:,9] = le.transform(testset_x.iloc[:,9])
 submission_x_0.iloc[:,9] = le.transform(submission_x_0.iloc[:,9])
 submission_x_1.iloc[:,9] = le.transform(submission_x_1.iloc[:,9])
 submission_x_2.iloc[:,9] = le.transform(submission_x_2.iloc[:,9])
+submission_x_3.iloc[:,9] = le.transform(submission_x_3.iloc[:,9])
+
 
 totalset.iloc[:,13] = le.fit_transform(totalset.iloc[:,13])
 trainset_x.iloc[:,13] = le.transform(trainset_x.iloc[:,13])
@@ -194,6 +216,7 @@ testset_x.iloc[:,13] = le.transform(testset_x.iloc[:,13])
 submission_x_0.iloc[:,13] = le.transform(submission_x_0.iloc[:,13])
 submission_x_1.iloc[:,13] = le.transform(submission_x_1.iloc[:,13])
 submission_x_2.iloc[:,13] = le.transform(submission_x_2.iloc[:,13])
+submission_x_3.iloc[:,13] = le.transform(submission_x_3.iloc[:,13])
 
 totalset.iloc[:,14] = le.fit_transform(totalset.iloc[:,14])
 trainset_x.iloc[:,14] = le.transform(trainset_x.iloc[:,14])
@@ -201,6 +224,7 @@ testset_x.iloc[:,14] = le.transform(testset_x.iloc[:,14])
 submission_x_0.iloc[:,14] = le.transform(submission_x_0.iloc[:,14])
 submission_x_1.iloc[:,14] = le.transform(submission_x_1.iloc[:,14])
 submission_x_2.iloc[:,14] = le.transform(submission_x_2.iloc[:,14])
+submission_x_3.iloc[:,14] = le.transform(submission_x_3.iloc[:,14])
 
 trainset_x['4'] = trainset_x['4'].astype(int)
 trainset_x['5'] = trainset_x['5'].astype(int)
@@ -212,6 +236,8 @@ submission_x_1['5'] = submission_x_1['5'].astype(int)
 submission_x_1['4'] = submission_x_1['4'].astype(int)
 submission_x_2['5'] = submission_x_2['5'].astype(int)
 submission_x_2['4'] = submission_x_2['4'].astype(int)
+submission_x_3['5'] = submission_x_3['5'].astype(int)
+submission_x_3['4'] = submission_x_3['4'].astype(int)
 
 print trainset_x.dtypes
 print testset_x.dtypes
@@ -256,7 +282,14 @@ submission_x_2 = submission_x_2.iloc[:,[3,4,5,6,7,10,11,12]].values
 submission_x_2 = np.hstack((submission_x_2,trainset_x_add))
 print submission_x_2.shape
 del trainset_x_add
-submission_x = [submission_x_0,submission_x_1,submission_x_2]
+
+trainset_x_add = encoder.transform(submission_x_3.iloc[:,[2,8,9,13,14]].values).toarray()
+submission_x_3 = submission_x_3.iloc[:,[3,4,5,6,7,10,11,12]].values
+submission_x_3 = np.hstack((submission_x_3,trainset_x_add))
+print submission_x_3.shape
+del trainset_x_add
+
+submission_x = [submission_x_0,submission_x_1,submission_x_2,submission_x_3]
 ###############################################################################
 # train xgboost (each cluster a GBDT tree)
 ###############################################################################

@@ -5,15 +5,20 @@ import numpy as np
 # load results
 
 ### attention for baseline or baseline_1
-baselines = [3,7]
-num_clusters = 3
+baselines = [1,2]
+num_clusters = 4
 weights = {}
 
 # weighting
 for baseline in baselines:
     for cluster in range(num_clusters):
-        testset_y = np.loadtxt('test_set/baseline_'+str(baseline)+'_clus_' + str(cluster) + '_label.csv')
-        prediction = np.loadtxt('test_set/baseline_'+str(baseline)+'_clus_' + str(cluster) + '_predict.csv')
+
+        if baseline==1 and cluster==0:
+            weights[str(baseline) + '_' + str(cluster)] = 0.000000001
+            continue
+
+        testset_y = np.loadtxt('test_set/baseline_'+str(baseline)+'_clus_' + str(cluster) + '_label.csv',delimiter=',',dtype=int)
+        prediction = np.loadtxt('test_set/baseline_'+str(baseline)+'_clus_' + str(cluster) + '_predict.csv',delimiter=',',dtype=int)
         prediction[prediction<0]=0
         # scoring
         sum = 0.
@@ -33,12 +38,12 @@ print weights
 result_per_cluster =[]
 for cluster in range(num_clusters):
     total_weight =0
-    prediction_ensembled = np.zeros(np.loadtxt('submission/baseline_1_clus_' + str(cluster) + '_predict.csv').shape)
+    prediction_ensembled = np.zeros(np.loadtxt('submission/baseline_2_clus_' + str(cluster) + '_predict.csv',delimiter=',').shape)
     for baseline in baselines:
         total_weight += weights[str(baseline)+'_'+str(cluster)]
     for baseline in baselines:
         weight = weights[str(baseline)+'_'+str(cluster)]/total_weight
-        prediction = np.loadtxt('submission/baseline_' + str(baseline) + '_clus_' + str(cluster) + '_predict.csv')
+        prediction = np.loadtxt('submission/baseline_' + str(baseline) + '_clus_' + str(cluster) + '_predict.csv',delimiter=',',dtype=int)
         prediction[prediction < 0] = 0
         prediction_ensembled += prediction * weight
     prediction_ensembled = np.round(prediction_ensembled).astype(int)
@@ -57,4 +62,4 @@ print np.arange(1,2001).shape
 submission = np.concatenate((np.arange(1,2001).reshape((2000,1)),submission),axis=1)
 print submission.shape
 print submission
-np.savetxt('submmission.csv',submission,fmt='%d',delimiter=',')
+np.savetxt('submmission_1.csv',submission,fmt='%d',delimiter=',')
