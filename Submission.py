@@ -5,7 +5,7 @@ import numpy as np
 # load results
 
 ### attention for baseline or baseline_1
-baselines = [7]
+baselines = [1,2,7]
 num_clusters = 4
 weights = {}
 
@@ -29,7 +29,7 @@ for baseline in baselines:
         nt = float((testset_y.shape[0] * testset_y.shape[1]))
         score = sum / nt
         print 'baseline: ' + str(baseline) + '  cluster: ' + str(cluster) + '  score: '+ str(score)
-        weight = (-np.log(score)) ** 4
+        weight = (-np.log(score)) ** 3
 
         weights[str(baseline)+'_'+str(cluster)] = weight
 print weights
@@ -62,4 +62,4 @@ print np.arange(1,2001).shape
 submission = np.concatenate((np.arange(1,2001).reshape((2000,1)),submission),axis=1)
 print submission.shape
 print submission
-np.savetxt('submmission_1.csv',submission,fmt='%d',delimiter=',')
+np.savetxt('submmission.csv',submission,fmt='%d',delimiter=',')
