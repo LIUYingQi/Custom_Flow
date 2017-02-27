@@ -7,48 +7,6 @@ from sklearn.linear_model import LinearRegression
 from sklearn.pipeline import Pipeline
 import seaborn
 
-######################################################################################
-# save train set
-######################################################################################
-
-# stander = preprocessing.StandardScaler()
-# trainset_x = np.empty((0,14))
-# trainset_y = np.empty((0,21))
-#
-# for item in range(1500):
-#     print item
-#     shop_id = trainset_shop_info.iloc[item,0]
-#     file = 'flow_per_shop/' + str(shop_id) + '.csv'
-#     info = pd.read_csv(file)
-#     ts = info['count'].values
-#     ts = ts[-21:]
-#     # print ts
-#     week1 = stander.fit_transform(ts[0:7])
-#     # print week1
-#     week2 = stander.fit_transform(ts[7:14])
-#     # print week2
-#     week3 = stander.fit_transform(ts[14:21])
-#     # print week2
-#     trainset_y = np.vstack((trainset_y,np.hstack((week1,np.hstack((week2,week3))))))
-#     city = trainset_shop_info.iloc[item,1]
-#     weather = pd.read_csv('input/city_weather/'+city,names=['date','max_t','min_t','class','wind_orientation','wind_class'])
-#     weather = weather.iloc[-51:-30,:]
-#     weather['class'] = weather['class'].apply(change_2_pinyin)
-#     del weather['wind_orientation']
-#     del weather['wind_class']
-#     weather['day'] = np.array([2,3,4,5,6,7,1,2,3,4,5,6,7,1,2,3,4,5,6,7,1])
-#     del weather['date']
-#     info = trainset_shop_info.iloc[item,:]
-#     info = info.values
-#     weather = weather.values
-#     for day in weather:
-#         day_info = np.hstack((info,day))
-#         trainset_x = np.vstack((trainset_x,day_info))
-#
-# trainset_x = pd.DataFrame(trainset_x)
-# trainset_x.to_csv('input/baseline7_trainset_x.csv')
-# np.savetxt('input/baseline7_trainset_y.csv',trainset_y,fmt='%f')
-
 
 cluster_list = [2,3]
 for cluster in cluster_list:

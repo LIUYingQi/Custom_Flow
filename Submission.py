@@ -5,7 +5,7 @@ import numpy as np
 # load results
 
 ### attention for baseline or baseline_1
-baselines = [1,2]
+baselines = [7]
 num_clusters = 4
 weights = {}
 

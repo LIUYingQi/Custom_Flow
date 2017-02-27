@@ -6,8 +6,8 @@ from matplotlib import pyplot
 import seaborn
 # load results
 
-baselines = [3,7]
-num_clusters = 3
+baselines = [1,2,7]
+num_clusters = 4
 weights = {}
 total_num = 0
 cluster_weight = []
@@ -23,8 +23,13 @@ for cluster in range(num_clusters):
 # weighting
 for cluster in range(num_clusters):
     for baseline in baselines:
-        testset_y = np.loadtxt('test_set/baseline_'+str(baseline)+'_clus_' + str(cluster) + '_label.csv')
-        prediction = np.loadtxt('test_set/baseline_'+str(baseline)+'_clus_' + str(cluster) + '_predict.csv')
+
+        if baseline==1 and cluster==0:
+            weights[str(baseline) + '_' + str(cluster)] = 0.000000001
+            continue
+
+        testset_y = np.loadtxt('test_set/baseline_'+str(baseline)+'_clus_' + str(cluster) + '_label.csv',delimiter=',')
+        prediction = np.loadtxt('test_set/baseline_'+str(baseline)+'_clus_' + str(cluster) + '_predict.csv',delimiter=',')
         prediction[prediction<0]=0
 
         # scoring
@@ -50,7 +55,7 @@ print weights
 # ensembling
 for cluster in range(num_clusters):
     total_weight =0
-    prediction_ensembled = np.zeros(np.loadtxt('test_set/baseline_1_clus_' + str(cluster) + '_label.csv').shape)
+    prediction_ensembled = np.zeros(np.loadtxt('test_set/baseline_1_clus_' + str(cluster) + '_label.csv',delimiter=',').shape)
     for baseline in baselines:
         total_weight += weights[str(baseline)+'_'+str(cluster)]
     for baseline in baselines:
@@ -62,7 +67,7 @@ for cluster in range(num_clusters):
     prediction_ensembled = np.round(prediction_ensembled)
     np.savetxt('test_set/clus_'+str(cluster)+'_result.csv',prediction_ensembled,fmt='%d')
     # scoring
-    testset_y = np.loadtxt('test_set/baseline_1_clus_' + str(cluster) + '_label.csv')
+    testset_y = np.loadtxt('test_set/baseline_1_clus_' + str(cluster) + '_label.csv',delimiter=',')
     # scoring
     sum = 0.
     for i in range(testset_y.shape[0]):
