@@ -62,4 +62,4 @@ print np.arange(1,2001).shape
 submission = np.concatenate((np.arange(1,2001).reshape((2000,1)),submission),axis=1)
 print submission.shape
 print submission
-np.savetxt('submmission.csv',submission,fmt='%d',delimiter=',')
+np.savetxt('submmission_1.csv',submission,fmt='%d',delimiter=',')

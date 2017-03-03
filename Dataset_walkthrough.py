@@ -8,7 +8,7 @@ from pypinyin import lazy_pinyin
 
 shop_info = pd.read_csv('input/shop_info.txt')
 
-for i in range(400,2000):
+for i in range(500,2000):
     print i+1
 
     file = 'flow_per_shop/'+str(i+1)+'.csv'
