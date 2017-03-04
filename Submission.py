@@ -5,7 +5,7 @@ import numpy as np
 # load results
 
 ### attention for baseline or baseline_1
-baselines = [1,2,7]
+baselines = [2,3,4,7]
 num_clusters = 4
 weights = {}
 
@@ -15,6 +15,24 @@ for baseline in baselines:
 
         if baseline==1 and cluster==0:
             weights[str(baseline) + '_' + str(cluster)] = 0.000000001
+            continue
+
+
+        if baseline == 3 and cluster!=0:
+            weights[str(baseline) + '_' + str(cluster)] = 10
+            continue
+
+        if baseline == 3 and cluster==0:
+            weights[str(baseline) + '_' + str(cluster)] = 0.0001
+            continue
+
+
+        if baseline == 4 and cluster!=0:
+            weights[str(baseline) + '_' + str(cluster)] = 10
+            continue
+
+        if baseline == 4 and cluster==0:
+            weights[str(baseline) + '_' + str(cluster)] = 0.0001
             continue
 
         testset_y = np.loadtxt('test_set/baseline_'+str(baseline)+'_clus_' + str(cluster) + '_label.csv',delimiter=',',dtype=int)
@@ -62,4 +80,4 @@ print np.arange(1,2001).shape
 submission = np.concatenate((np.arange(1,2001).reshape((2000,1)),submission),axis=1)
 print submission.shape
 print submission
-np.savetxt('submmission_1.csv',submission,fmt='%d',delimiter=',')
+np.savetxt('submmission.csv',submission,fmt='%d',delimiter=',')

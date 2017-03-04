@@ -39,202 +39,202 @@ testset_shop_info = shop_info.iloc[testset,:]
 # save train set  ( fluent part and rare part )
 ######################################################################################
 
-# stander = preprocessing.StandardScaler()
-# trainset_x = np.empty((0,14))
-# fluent_trainset_y = np.empty((0,21))
-# rare_trainset_y = np.empty((0,21))
-#
-# # 1500 item in train set
-# # save x as (1500*21,14) here 14 is coulum num  y as (1500,21)
-#
-# for item in range(1500):
-#     print item
-#     shop_id = trainset_shop_info.iloc[item,0]
-#
-#     # part fluent
-#     file = 'flow_per_shop/' + str(shop_id) + '_fluent.csv'
-#     info = pd.read_csv(file)
-#     info.drop(info.index[[348, 349, 350, 351, 352, 353, 354, 446, 447, 448, 449, 450, 451, 452,
-#                           404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417,
-#                           460, 461, 462, 463, 464, 465, 466, 467, 468, 469, 470, 471, 472, 473]], inplace=True)
-#     ts_fluent = info['count'].values
-#     ts_fluent = ts_fluent[243:]
-#
-#     size = 7  # use odd
-#     RM_ts_fluent = pd.rolling_mean(ts_fluent, size, center=True)
-#     RM_ts_fluent[:size / 2] = RM_ts_fluent[size / 2]
-#     RM_ts_fluent[-(size / 2) - 1:] = RM_ts_fluent[-(size / 2) - 1]
-#     WAVE_ts_fluent = ts_fluent - RM_ts_fluent
-#
-#     WAVE_ts_fluent = WAVE_ts_fluent[-21:]
-#     # print ts
-#     week1 = stander.fit_transform(WAVE_ts_fluent[0:7])
-#     # print week1
-#     week2 = stander.fit_transform(WAVE_ts_fluent[7:14])
-#     # print week2
-#     week3 = stander.fit_transform(WAVE_ts_fluent[14:21])
-#     # print week2
-#     fluent_trainset_y = np.vstack((fluent_trainset_y,np.hstack((week1,np.hstack((week2,week3))))))
-#
-#     # part rare
-#     file = 'flow_per_shop/' + str(shop_id) + '_rare.csv'
-#     info = pd.read_csv(file)
-#     info.drop(info.index[[348, 349, 350, 351, 352, 353, 354, 446, 447, 448, 449, 450, 451, 452,
-#                           404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417,
-#                           460, 461, 462, 463, 464, 465, 466, 467, 468, 469, 470, 471, 472, 473]], inplace=True)
-#     ts_rare = info['count'].values
-#     ts_rare = ts_rare[243:]
-#
-#     size = 7  # use odd
-#     RM_ts_rare = pd.rolling_mean(ts_rare, size, center=True)
-#     RM_ts_rare[:size / 2] = RM_ts_rare[size / 2]
-#     RM_ts_rare[-(size / 2) - 1:] = RM_ts_rare[-(size / 2) - 1]
-#     WAVE_ts_rare = ts_rare - RM_ts_rare
-#
-#     WAVE_ts_rare = WAVE_ts_rare[-21:]
-#     # print ts
-#     week1 = stander.fit_transform(WAVE_ts_rare[0:7])
-#     # print week1
-#     week2 = stander.fit_transform(WAVE_ts_rare[7:14])
-#     # print week2
-#     week3 = stander.fit_transform(WAVE_ts_rare[14:21])
-#     # print week2
-#     rare_trainset_y = np.vstack((rare_trainset_y,np.hstack((week1,np.hstack((week2,week3))))))
-#
-#     # read weather as x part
-#     city = trainset_shop_info.iloc[item,1]
-#     weather = pd.read_csv('input/city_weather/'+city,names=['date','max_t','min_t','class','wind_orientation','wind_class'])
-#     weather = weather.iloc[-51:-30,:]
-#     weather['class'] = weather['class'].apply(change_2_pinyin)
-#     del weather['wind_orientation']
-#     del weather['wind_class']
-#     weather['day'] = np.array([2,3,4,5,6,7,1,2,3,4,5,6,7,1,2,3,4,5,6,7,1])
-#     del weather['date']
-#     info = trainset_shop_info.iloc[item,:]
-#     info = info.values
-#     weather = weather.values
-#     for day in weather:
-#         day_info = np.hstack((info,day))
-#         trainset_x = np.vstack((trainset_x,day_info))
-#
-# trainset_x = pd.DataFrame(trainset_x)
-# trainset_x.to_csv('input/baseline7_trainset_x.csv')
-# np.savetxt('input/baseline7_fluent_trainset_y.csv',fluent_trainset_y,fmt='%f')
-# np.savetxt('input/baseline7_rare_trainset_y.csv',rare_trainset_y,fmt='%f')
+stander = preprocessing.StandardScaler()
+trainset_x = np.empty((0,14))
+fluent_trainset_y = np.empty((0,21))
+rare_trainset_y = np.empty((0,21))
 
-# ###########################################################################################
-# # save test set
-# ############################################################################################
+# 1500 item in train set
+# save x as (1500*21,14) here 14 is coulum num  y as (1500,21)
 
-# stander = preprocessing.StandardScaler()
-# testset_x = np.empty((0,14))
-# fluent_testset_y = np.empty((0,21))
-# rare_testset_y = np.empty((0,21))
-#
-#
-# for item in range(500):
-#     print item
-#     shop_id = testset_shop_info.iloc[item,0]
-#
-#     # fluent part
-#     file = 'flow_per_shop/' + str(shop_id) + '_fluent.csv'
-#     info = pd.read_csv(file)
-#     info.drop(info.index[[348, 349, 350, 351, 352, 353, 354, 446, 447, 448, 449, 450, 451, 452,
-#                            404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417,
-#                           460, 461, 462, 463, 464, 465, 466, 467, 468, 469, 470, 471, 472, 473]], inplace=True)
-#     ts_fluent = info['count'].values
-#     ts_fluent = ts_fluent[243:]
-#
-#     size = 7  # use odd
-#     RM_ts_fluent = pd.rolling_mean(ts_fluent, size, center=True)
-#     RM_ts_fluent[:size / 2] = RM_ts_fluent[size / 2]
-#     RM_ts_fluent[-(size / 2) - 1:] = RM_ts_fluent[-(size / 2) - 1]
-#     WAVE_ts_fluent = ts_fluent - RM_ts_fluent
-#
-#     WAVE_ts_fluent = WAVE_ts_fluent[-21:]
-#     # print ts
-#     week1 = stander.fit_transform(WAVE_ts_fluent[0:7])
-#     # print week1
-#     week2 = stander.fit_transform(WAVE_ts_fluent[7:14])
-#     # print week2
-#     week3 = stander.fit_transform(WAVE_ts_fluent[14:21])
-#     # print week2
-#     fluent_testset_y = np.vstack((fluent_testset_y,np.hstack((week1,np.hstack((week2,week3))))))
-#
-#     # fluent part
-#     file = 'flow_per_shop/' + str(shop_id) + '_rare.csv'
-#     info = pd.read_csv(file)
-#     info.drop(info.index[[348, 349, 350, 351, 352, 353, 354, 446, 447, 448, 449, 450, 451, 452,
-#                            404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417,
-#                           460, 461, 462, 463, 464, 465, 466, 467, 468, 469, 470, 471, 472, 473]], inplace=True)
-#     ts_rare = info['count'].values
-#     ts_rare = ts_rare[243:]
-#
-#     size = 7  # use odd
-#     RM_ts_rare = pd.rolling_mean(ts_rare, size, center=True)
-#     RM_ts_rare[:size / 2] = RM_ts_rare[size / 2]
-#     RM_ts_rare[-(size / 2) - 1:] = RM_ts_rare[-(size / 2) - 1]
-#     WAVE_ts_rare = ts_rare - RM_ts_rare
-#
-#     WAVE_ts_rare = WAVE_ts_rare[-21:]
-#     # print ts
-#     week1 = stander.fit_transform(WAVE_ts_rare[0:7])
-#     # print week1
-#     week2 = stander.fit_transform(WAVE_ts_rare[7:14])
-#     # print week2
-#     week3 = stander.fit_transform(WAVE_ts_rare[14:21])
-#     # print week2
-#     rare_testset_y = np.vstack((rare_testset_y, np.hstack((week1, np.hstack((week2, week3))))))
-#
-#     # weather paer test x
-#     city = testset_shop_info.iloc[item,1]
-#     weather = pd.read_csv('input/city_weather/'+city,names=['date','max_t','min_t','class','wind_orientation','wind_class'])
-#     weather = weather.iloc[-51:-30,:]
-#     weather['class'] = weather['class'].apply(change_2_pinyin)
-#     del weather['wind_orientation']
-#     del weather['wind_class']
-#     weather['day'] = np.array([2,3,4,5,6,7,1,2,3,4,5,6,7,1,2,3,4,5,6,7,1])
-#     del weather['date']
-#     info = testset_shop_info.iloc[item,:]
-#     info = info.values
-#     weather = weather.values
-#     for day in weather:
-#         day_info = np.hstack((info,day))
-#         testset_x = np.vstack((testset_x,day_info))
-#
-# testset_x = pd.DataFrame(testset_x)
-# testset_x.to_csv('input/baseline7_testset_x.csv')
-# np.savetxt('input/baseline7_fluent_testset_y.csv',fluent_testset_y,fmt='%f')
-# np.savetxt('input/baseline7_rare_testset_y.csv',rare_testset_y,fmt='%f')
+for item in range(1500):
+    print item
+    shop_id = trainset_shop_info.iloc[item,0]
 
-# ############################################################################
-# # generating submission file
-# ############################################################################
-#
-# for cluster in range(num_cluster):
-#     cluster_file = np.loadtxt('classification/cluster_'+str(cluster)+'.csv',dtype=int)
-#
-#     submission_x = np.empty((0,14))
-#     for item in cluster_file:
-#         print item
-#         shop_id = shop_info.iloc[item-1,0]
-#         city = shop_info.iloc[item-1,1]
-#         weather = pd.read_csv('input/city_weather/'+city,names=['date','max_t','min_t','class','wind_orientation','wind_class'])
-#         weather = weather.iloc[-30:-16,:]
-#         weather['class'] = weather['class'].apply(change_2_pinyin)
-#         del weather['wind_orientation']
-#         del weather['wind_class']
-#         weather['day'] = np.array([2,3,4,5,6,7,1,2,3,4,5,6,7,1])
-#         del weather['date']
-#         info = shop_info.iloc[item-1,:]
-#         info = info.values
-#         weather = weather.values
-#         for day in weather:
-#             day_info = np.hstack((info,day))
-#             submission_x = np.vstack((submission_x,day_info))
-#
-#     submission_x = pd.DataFrame(submission_x)
-#     submission_x.to_csv('input/baseline7_submission_x_'+str(cluster)+'.csv')
+    # part fluent
+    file = 'flow_per_shop/' + str(shop_id) + '_fluent.csv'
+    info = pd.read_csv(file)
+    info.drop(info.index[[348, 349, 350, 351, 352, 353, 354, 446, 447, 448, 449, 450, 451, 452,
+                          404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417,
+                          460, 461, 462, 463, 464, 465, 466, 467, 468, 469, 470, 471, 472, 473]], inplace=True)
+    ts_fluent = info['count'].values
+    ts_fluent = ts_fluent[243:]
+
+    size = 7  # use odd
+    RM_ts_fluent = pd.rolling_mean(ts_fluent, size, center=True)
+    RM_ts_fluent[:size / 2] = RM_ts_fluent[size / 2]
+    RM_ts_fluent[-(size / 2) - 1:] = RM_ts_fluent[-(size / 2) - 1]
+    WAVE_ts_fluent = ts_fluent - RM_ts_fluent
+
+    WAVE_ts_fluent = WAVE_ts_fluent[-21:]
+    # print ts
+    week1 = stander.fit_transform(WAVE_ts_fluent[0:7])
+    # print week1
+    week2 = stander.fit_transform(WAVE_ts_fluent[7:14])
+    # print week2
+    week3 = stander.fit_transform(WAVE_ts_fluent[14:21])
+    # print week2
+    fluent_trainset_y = np.vstack((fluent_trainset_y,np.hstack((week1,np.hstack((week2,week3))))))
+
+    # part rare
+    file = 'flow_per_shop/' + str(shop_id) + '_rare.csv'
+    info = pd.read_csv(file)
+    info.drop(info.index[[348, 349, 350, 351, 352, 353, 354, 446, 447, 448, 449, 450, 451, 452,
+                          404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417,
+                          460, 461, 462, 463, 464, 465, 466, 467, 468, 469, 470, 471, 472, 473]], inplace=True)
+    ts_rare = info['count'].values
+    ts_rare = ts_rare[243:]
+
+    size = 7  # use odd
+    RM_ts_rare = pd.rolling_mean(ts_rare, size, center=True)
+    RM_ts_rare[:size / 2] = RM_ts_rare[size / 2]
+    RM_ts_rare[-(size / 2) - 1:] = RM_ts_rare[-(size / 2) - 1]
+    WAVE_ts_rare = ts_rare - RM_ts_rare
+
+    WAVE_ts_rare = WAVE_ts_rare[-21:]
+    # print ts
+    week1 = stander.fit_transform(WAVE_ts_rare[0:7])
+    # print week1
+    week2 = stander.fit_transform(WAVE_ts_rare[7:14])
+    # print week2
+    week3 = stander.fit_transform(WAVE_ts_rare[14:21])
+    # print week2
+    rare_trainset_y = np.vstack((rare_trainset_y,np.hstack((week1,np.hstack((week2,week3))))))
+
+    # read weather as x part
+    city = trainset_shop_info.iloc[item,1]
+    weather = pd.read_csv('input/city_weather/'+city,names=['date','max_t','min_t','class','wind_orientation','wind_class'])
+    weather = weather.iloc[-51:-30,:]
+    weather['class'] = weather['class'].apply(change_2_pinyin)
+    del weather['wind_orientation']
+    del weather['wind_class']
+    weather['day'] = np.array([2,3,4,5,6,7,1,2,3,4,5,6,7,1,2,3,4,5,6,7,1])
+    del weather['date']
+    info = trainset_shop_info.iloc[item,:]
+    info = info.values
+    weather = weather.values
+    for day in weather:
+        day_info = np.hstack((info,day))
+        trainset_x = np.vstack((trainset_x,day_info))
+
+trainset_x = pd.DataFrame(trainset_x)
+trainset_x.to_csv('input/baseline7_trainset_x.csv')
+np.savetxt('input/baseline7_fluent_trainset_y.csv',fluent_trainset_y,fmt='%f')
+np.savetxt('input/baseline7_rare_trainset_y.csv',rare_trainset_y,fmt='%f')
+
+###########################################################################################
+# save test set
+############################################################################################
+
+stander = preprocessing.StandardScaler()
+testset_x = np.empty((0,14))
+fluent_testset_y = np.empty((0,21))
+rare_testset_y = np.empty((0,21))
+
+
+for item in range(500):
+    print item
+    shop_id = testset_shop_info.iloc[item,0]
+
+    # fluent part
+    file = 'flow_per_shop/' + str(shop_id) + '_fluent.csv'
+    info = pd.read_csv(file)
+    info.drop(info.index[[348, 349, 350, 351, 352, 353, 354, 446, 447, 448, 449, 450, 451, 452,
+                           404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417,
+                          460, 461, 462, 463, 464, 465, 466, 467, 468, 469, 470, 471, 472, 473]], inplace=True)
+    ts_fluent = info['count'].values
+    ts_fluent = ts_fluent[243:]
+
+    size = 7  # use odd
+    RM_ts_fluent = pd.rolling_mean(ts_fluent, size, center=True)
+    RM_ts_fluent[:size / 2] = RM_ts_fluent[size / 2]
+    RM_ts_fluent[-(size / 2) - 1:] = RM_ts_fluent[-(size / 2) - 1]
+    WAVE_ts_fluent = ts_fluent - RM_ts_fluent
+
+    WAVE_ts_fluent = WAVE_ts_fluent[-21:]
+    # print ts
+    week1 = stander.fit_transform(WAVE_ts_fluent[0:7])
+    # print week1
+    week2 = stander.fit_transform(WAVE_ts_fluent[7:14])
+    # print week2
+    week3 = stander.fit_transform(WAVE_ts_fluent[14:21])
+    # print week2
+    fluent_testset_y = np.vstack((fluent_testset_y,np.hstack((week1,np.hstack((week2,week3))))))
+
+    # fluent part
+    file = 'flow_per_shop/' + str(shop_id) + '_rare.csv'
+    info = pd.read_csv(file)
+    info.drop(info.index[[348, 349, 350, 351, 352, 353, 354, 446, 447, 448, 449, 450, 451, 452,
+                           404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417,
+                          460, 461, 462, 463, 464, 465, 466, 467, 468, 469, 470, 471, 472, 473]], inplace=True)
+    ts_rare = info['count'].values
+    ts_rare = ts_rare[243:]
+
+    size = 7  # use odd
+    RM_ts_rare = pd.rolling_mean(ts_rare, size, center=True)
+    RM_ts_rare[:size / 2] = RM_ts_rare[size / 2]
+    RM_ts_rare[-(size / 2) - 1:] = RM_ts_rare[-(size / 2) - 1]
+    WAVE_ts_rare = ts_rare - RM_ts_rare
+
+    WAVE_ts_rare = WAVE_ts_rare[-21:]
+    # print ts
+    week1 = stander.fit_transform(WAVE_ts_rare[0:7])
+    # print week1
+    week2 = stander.fit_transform(WAVE_ts_rare[7:14])
+    # print week2
+    week3 = stander.fit_transform(WAVE_ts_rare[14:21])
+    # print week2
+    rare_testset_y = np.vstack((rare_testset_y, np.hstack((week1, np.hstack((week2, week3))))))
+
+    # weather paer test x
+    city = testset_shop_info.iloc[item,1]
+    weather = pd.read_csv('input/city_weather/'+city,names=['date','max_t','min_t','class','wind_orientation','wind_class'])
+    weather = weather.iloc[-51:-30,:]
+    weather['class'] = weather['class'].apply(change_2_pinyin)
+    del weather['wind_orientation']
+    del weather['wind_class']
+    weather['day'] = np.array([2,3,4,5,6,7,1,2,3,4,5,6,7,1,2,3,4,5,6,7,1])
+    del weather['date']
+    info = testset_shop_info.iloc[item,:]
+    info = info.values
+    weather = weather.values
+    for day in weather:
+        day_info = np.hstack((info,day))
+        testset_x = np.vstack((testset_x,day_info))
+
+testset_x = pd.DataFrame(testset_x)
+testset_x.to_csv('input/baseline7_testset_x.csv')
+np.savetxt('input/baseline7_fluent_testset_y.csv',fluent_testset_y,fmt='%f')
+np.savetxt('input/baseline7_rare_testset_y.csv',rare_testset_y,fmt='%f')
+
+############################################################################
+# generating submission file
+############################################################################
+
+for cluster in range(num_cluster):
+    cluster_file = np.loadtxt('classification/cluster_'+str(cluster)+'.csv',dtype=int)
+
+    submission_x = np.empty((0,14))
+    for item in cluster_file:
+        print item
+        shop_id = shop_info.iloc[item-1,0]
+        city = shop_info.iloc[item-1,1]
+        weather = pd.read_csv('input/city_weather/'+city,names=['date','max_t','min_t','class','wind_orientation','wind_class'])
+        weather = weather.iloc[-30:-16,:]
+        weather['class'] = weather['class'].apply(change_2_pinyin)
+        del weather['wind_orientation']
+        del weather['wind_class']
+        weather['day'] = np.array([2,3,4,5,6,7,1,2,3,4,5,6,7,1])
+        del weather['date']
+        info = shop_info.iloc[item-1,:]
+        info = info.values
+        weather = weather.values
+        for day in weather:
+            day_info = np.hstack((info,day))
+            submission_x = np.vstack((submission_x,day_info))
+
+    submission_x = pd.DataFrame(submission_x)
+    submission_x.to_csv('input/baseline7_submission_x_'+str(cluster)+'.csv')
 
 ###############################################################################
 # label encoder for test set x

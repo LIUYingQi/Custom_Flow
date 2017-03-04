@@ -26,7 +26,7 @@ for pattern_i in pattern:
     info = pd.read_csv(file)
     ts = info['count'].values
     ts = ts[242:]
-    if (120-np.count_nonzero(ts[-120:]))>0:
+    if (120-np.count_nonzero(ts[-120:]))>3:
         labels.append(0)
         counter += 1
         continue
