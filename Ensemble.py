@@ -6,7 +6,7 @@ from matplotlib import pyplot
 import seaborn
 # load results
 
-baselines = [1,2,7]
+baselines = [2]
 num_clusters = 4
 weights = {}
 total_num = 0

@@ -41,7 +41,7 @@ print np.mean(submission_1[:,1:])
 print np.var(submission[:,1:])
 print np.var(submission_1[:,1:])
 
-for i in range(500,2000):
+for i in range(1525,2000):
     print i+1
     file = 'flow_per_shop/'+str(i+1)+'.csv'
     info = pd.read_csv(file)
@@ -56,10 +56,10 @@ for i in range(500,2000):
     print title2
     print title3
 
-    pyplot.figure(figsize=(10,8))
+    pyplot.figure(figsize=(15,8))
     pyplot.plot(np.arange(0,495),ts)
     pyplot.plot(np.arange(495,509),submission[i,1:],color='green')
-    pyplot.plot(np.arange(495,509),submission_1[i,1:],color='brown')
+    # pyplot.plot(np.arange(495,509),submission_1[i,1:],color='brown')
     pyplot.axvline(98,color='brown')
     pyplot.axvline(170,color='red')
     pyplot.axvline(227,color='yellow')

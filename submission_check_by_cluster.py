@@ -3,7 +3,7 @@ import pandas as pd
 import seaborn
 from matplotlib import pyplot
 
-baseline = 7
+baseline = 2
 cluster = 0
 
 # load train set and test set

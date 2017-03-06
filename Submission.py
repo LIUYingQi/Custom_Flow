@@ -19,7 +19,7 @@ for baseline in baselines:
 
 
         if baseline == 3 and cluster!=0:
-            weights[str(baseline) + '_' + str(cluster)] = 10
+            weights[str(baseline) + '_' + str(cluster)] = 7
             continue
 
         if baseline == 3 and cluster==0:
@@ -28,7 +28,7 @@ for baseline in baselines:
 
 
         if baseline == 4 and cluster!=0:
-            weights[str(baseline) + '_' + str(cluster)] = 10
+            weights[str(baseline) + '_' + str(cluster)] = 7
             continue
 
         if baseline == 4 and cluster==0:
@@ -81,3 +81,6 @@ submission = np.concatenate((np.arange(1,2001).reshape((2000,1)),submission),axi
 print submission.shape
 print submission
 np.savetxt('submmission.csv',submission,fmt='%d',delimiter=',')
+
+######################################
+##########  no more submission

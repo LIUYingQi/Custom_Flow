@@ -65,17 +65,22 @@ for cluster in range(num_clus):
         data = data[-21:]
         submission = np.vstack((submission,data))
 
-    submission_x_holiday = np.round(np.mean(submission[:,[4,5,11,12,18,19]],axis=1)).astype(int)
-    submission_x_workday = np.round(np.mean(submission[:,[0,1,2,3,6,7,8,9,10,13,14,15,16,17,20]],axis=1)).astype(int)
+    submission_x_1 = np.round(np.mean(submission[:, [ 6, 13,  20]], axis=1)).astype(int)
+    submission_x_234 = np.round(np.mean(submission[:, [0, 1, 2, 7, 8, 9, 13, 14, 15, 16]], axis=1)).astype(int)
+    submission_x_5 = np.round(np.mean(submission[:, [3, 10, 17]], axis=1)).astype(int)
+    submission_x_67 = np.round(np.mean(submission[:, [4,5,11,12,18,19]], axis=1)).astype(int)
 
     submission = np.empty((0,14))
     for i in range(len(cluster_file)):
-        array = []
-        array = [submission_x_workday[i]]*4
-        array.extend([submission_x_holiday[i]]*2)
-        array.extend([submission_x_workday[i]]*5)
-        array.extend([submission_x_holiday[i]]*2)
-        array.extend([submission_x_workday[i]])
+        array = [submission_x_234[i]]*3
+        array.extend([submission_x_5[i]])
+        array.extend([submission_x_67[i]]*2)
+        array.extend([submission_x_1[i]])
+        array.extend([submission_x_234[i]]*3)
+        array.extend([submission_x_5[i]])
+        array.extend([submission_x_67[i]]*2)
+        array.extend([submission_x_1[i]])
+
         submission = np.vstack((submission,np.array(array)))
     submission = np.round(submission)
 
@@ -114,7 +119,6 @@ for cluster in range(num_clus):
     prediction = np.empty((0, 14))
 
     for i in range(len(testset_x)):
-        array = []
         array = [testset_x_workday[i]] * 4
         array.extend([testset_x_holiday[i]] * 2)
         array.extend([testset_x_workday[i]] * 5)
@@ -135,17 +139,23 @@ for cluster in range(num_clus):
         data = data['count'].values
         data = data[-21:]
         submission = np.vstack((submission,data))
-    submission_x_holiday = np.round(np.mean(submission[:,[4,5,11,12,18,19]],axis=1)).astype(int)
-    submission_x_workday = np.round(np.mean(submission[:,[0,1,2,3,6,7,8,9,10,13,14,15,16,17,20]],axis=1)).astype(int)
+
+    submission_x_1 = np.round(np.mean(submission[:, [ 6, 13,  20]], axis=1)).astype(int)
+    submission_x_234 = np.round(np.mean(submission[:, [0, 1, 2, 7, 8, 9, 13, 14, 15, 16]], axis=1)).astype(int)
+    submission_x_5 = np.round(np.mean(submission[:, [3, 10, 17]], axis=1)).astype(int)
+    submission_x_67 = np.round(np.mean(submission[:, [4,5,11,12,18,19]], axis=1)).astype(int)
 
     submission = np.empty((0,14))
     for i in range(len(cluster_file)):
-        array = []
-        array = [submission_x_workday[i]]*4
-        array.extend([submission_x_holiday[i]]*2)
-        array.extend([submission_x_workday[i]]*5)
-        array.extend([submission_x_holiday[i]]*2)
-        array.extend([submission_x_workday[i]])
+        array = [submission_x_234[i]]*3
+        array.extend([submission_x_5[i]])
+        array.extend([submission_x_67[i]]*2)
+        array.extend([submission_x_1[i]])
+        array.extend([submission_x_234[i]]*3)
+        array.extend([submission_x_5[i]])
+        array.extend([submission_x_67[i]]*2)
+        array.extend([submission_x_1[i]])
+
         submission = np.vstack((submission,np.array(array)))
     submission = np.round(submission)
     predict_rare_submission = submission
